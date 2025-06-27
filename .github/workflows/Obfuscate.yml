@@ -30,9 +30,15 @@ jobs:
 
       - name: Download and extract latest BPB worker
         run: |
-          wget https://github.com/bia-pain-bache/BPB-Worker-Panel/releases/download/v3.3.6/worker.zip
-          unzip -o unobfuscated-worker.zip
-          mv _worker.js origin.js
+          # 下载并命名成 unobfuscated-worker.zip
+          wget -O unobfuscated-worker.zip \
+            https://github.com/bia-pain-bache/BPB-Worker-Panel/releases/latest/download/unobfuscated-worker.zip
+
+          # 只把 ZIP 里的 _worker.js 内容写入 origin.js
+          unzip -p unobfuscated-worker.zip _worker.js > origin.js
+
+          # 清理一下
+          rm unobfuscated-worker.zip
 
       - name: Obfuscate BPB worker js
         run: |
